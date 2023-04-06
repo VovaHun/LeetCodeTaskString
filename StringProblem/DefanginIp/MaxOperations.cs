@@ -11,19 +11,31 @@ namespace DefanginIp
         public int MaxOperation(int[] nums, int k)
         {
             int max = 0;
-            List<int> result = new List<int>(nums);
 
-            for (int i = 0; i < result.Count; i++)
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            foreach (int i in nums)
             {
-                int a = k - result[i];
-                if (result.Contains(k - result[i]))
+                int res = k - i;
+
+                if (dict.ContainsKey(res) && dict[res] > 0)
                 {
-                    int y = result[i];
-                    result.Remove(result.Find(x => x == k - y));
-                    result.Remove(y);
                     max++;
+                    dict[res]--;
+                }
+                else
+                {
+                    if (dict.ContainsKey(i))
+                    {
+                        int a = dict[i];
+                        a = a + 1;
+                        dict[i] = a;
+                    }
+
+                    else
+                        dict.Add(i, 1);
                 }
             }
+
 
 
             return max;
